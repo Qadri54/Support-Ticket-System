@@ -13,8 +13,12 @@ Route::prefix('v1')->group(function () {
     Route::post('tickets', [TicketController::class, 'store']);
     Route::get('tickets/{ticket}', [TicketController::class, 'show']);
 
-    // Admin-only: enforced by auth:sanctum + TicketPolicy.
+    // Authenticated endpoints (any logged-in user).
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('me', [AuthController::class, 'me']);
+        Route::post('logout', [AuthController::class, 'logout']);
+
+        // Admin-only: enforced by TicketPolicy.
         Route::patch('tickets/{ticket}/status', [TicketController::class, 'updateStatus']);
         Route::post('tickets/{ticket}/responses', [TicketResponseController::class, 'store']);
     });

@@ -52,6 +52,34 @@ Menerbitkan Bearer token via Sanctum. Tanpa auth.
 
 ---
 
+## GET `/me`
+
+User yang sedang terautentikasi. **Perlu Bearer token.**
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response `200`**
+
+```json
+{ "data": { "id": 1, "name": "Admin", "email": "admin@example.com", "role": "admin" } }
+```
+
+**Error `401`** — tanpa token / token tidak valid.
+
+---
+
+## POST `/logout`
+
+Mencabut (revoke) token akses saat ini. **Perlu Bearer token.**
+
+**Response `200`**
+
+```json
+{ "message": "Logged out." }
+```
+
+---
+
 ## GET `/tickets`
 
 List ticket, paginated (10 per halaman). Tanpa auth.

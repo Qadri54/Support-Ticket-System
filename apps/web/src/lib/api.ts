@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import type {
+  ApiUser,
   PaginatedResponse,
   ResourceObject,
   Ticket,
@@ -78,6 +79,47 @@ export function getTickets(
 export async function getTicket(id: number | string): Promise<Ticket> {
   const { data } = await apiFetch<ResourceObject<Ticket>>(`/tickets/${id}`);
   return data;
+}
+
+/**
+ * The currently authenticated user, or null when no valid token is present.
+ * Used by Server Components to decide whether to render admin controls.
+ */
+export async function getCurrentUser(): Promise<ApiUser | null> {
+  const cookieStore = await cookies();
+  if (!cookieStore.get(AUTH_COOKIE)?.value) return null;
+
+  try {
+    const { data } = await apiFetch<ResourceObject<ApiUser>>("/me");
+    return data;
+  } catch {
+    // invalid/expired token — treat as logged out
+    return null;
+  }
+}
+
+/** Admin-only: change a ticket's status. Throws ApiError on failure. */
+export async function updateTicketStatus(
+  id: number | string,
+  status: TicketStatus,
+): Promise<void> {
+  await apiFetch(`/tickets/${id}/status`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+}
+
+/** Admin-only: add a response to a ticket. Throws ApiError on failure. */
+export async function addTicketResponse(
+  id: number | string,
+  body: string,
+): Promise<void> {
+  await apiFetch(`/tickets/${id}/responses`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ body }),
+  });
 }
 
 export { API_URL };

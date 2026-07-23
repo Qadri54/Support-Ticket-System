@@ -262,6 +262,8 @@ Prefix: `/api/v1`. Kontrak lengkap (request/response tiap endpoint) ada di
 | Method | Endpoint | Auth | Sukses |
 |---|---|---|---|
 | POST | `/login` | — | 200 |
+| GET | `/me` | login | 200 |
+| POST | `/logout` | login | 200 |
 | GET | `/tickets` | — | 200 (`?status=&page=`, paginated) |
 | POST | `/tickets` | — | 201 (+ header `Location`) |
 | GET | `/tickets/{id}` | — | 200 (menyertakan `responses`) |
@@ -296,14 +298,22 @@ Password seragam: `password`
 | `admin@example.com` | admin |
 | `user@example.com` | user |
 
+**Fitur admin** (login lewat tombol *Admin login* di header, atau `/login`):
+
+- **Ubah status ticket** — kontrol pada halaman detail ticket.
+- **Tambah response** — form pada halaman detail ticket.
+- **Filter ticket berdasarkan status** — dropdown pada halaman list (tersedia
+  untuk semua pengguna).
+
+Setelah login, token disimpan sebagai httpOnly cookie; Server Component membaca
+peran user via `GET /me` untuk menampilkan kontrol admin. Endpoint mutasi tetap
+diproteksi `auth:sanctum` + `TicketPolicy` di server — UI hanya menyembunyikan
+kontrol, otorisasi sebenarnya ada di API.
+
 ---
 
 ## Known Limitations
 
-- **Tidak ada UI admin di frontend.** Aksi admin (ubah status, tambah response)
-  berfungsi penuh di layer API dan diuji lewat test, tetapi frontend hanya
-  mengimplementasikan alur user (list, filter, create, detail) sesuai daftar file
-  pada spesifikasi. Belum ada halaman login/dashboard admin di web.
 - **Create ticket terbuka tanpa auth.** Karena tidak ada registrasi user, ticket
   baru yang dibuat tanpa token diberikan ke *reporter default* (user demo). Ini
   penyederhanaan, bukan model kepemilikan yang sebenarnya.
@@ -324,9 +334,9 @@ Password seragam: `password`
 
 Dengan waktu tambahan, prioritas peningkatan:
 
-1. **UI admin lengkap di frontend** — halaman login (memanfaatkan Route Handler +
-   httpOnly cookie yang sudah ada), kontrol ubah status, dan form tambah response
-   pada halaman detail, dengan optimistic update.
+1. **Optimistic update pada aksi admin** — saat ini ubah status / tambah response
+   memakai Server Action + `revalidatePath` (satu round-trip). Bisa ditingkatkan
+   dengan `useOptimistic` agar UI langsung berubah sebelum server merespons.
 2. **Model kepemilikan ticket yang benar** — autentikasi user biasa saat membuat
    ticket agar `user_id` mencerminkan pembuat sebenarnya, bukan reporter default.
 3. **CI pipeline** (GitHub Actions) — menjalankan `php artisan test`, `tsc

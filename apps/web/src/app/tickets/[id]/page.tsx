@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { addResponseAction, updateStatusAction } from "@/app/tickets/[id]/actions";
+import { ResponseForm } from "@/components/ResponseForm";
 import { StatusBadge } from "@/components/StatusBadge";
-import { ApiError, getTicket } from "@/lib/api";
+import { StatusUpdater } from "@/components/StatusUpdater";
+import { ApiError, getCurrentUser, getTicket } from "@/lib/api";
 import type { Ticket } from "@/lib/types";
 
 function formatDate(value: string | null): string {
@@ -29,6 +32,8 @@ export default async function TicketDetailPage({
     throw error;
   }
 
+  const currentUser = await getCurrentUser();
+  const isAdmin = currentUser?.role === "admin";
   const responses = ticket.responses ?? [];
 
   return (
@@ -58,6 +63,18 @@ export default async function TicketDetailPage({
           {ticket.description}
         </p>
       </article>
+
+      {isAdmin && (
+        <div className="rounded-lg border border-blue-200 bg-blue-50/60 p-4 dark:border-blue-500/30 dark:bg-blue-500/5">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-blue-700 dark:text-blue-300">
+            Admin
+          </p>
+          <StatusUpdater
+            action={updateStatusAction.bind(null, ticket.id)}
+            current={ticket.status}
+          />
+        </div>
+      )}
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold text-neutral-600 dark:text-neutral-400">
@@ -89,6 +106,12 @@ export default async function TicketDetailPage({
               </li>
             ))}
           </ul>
+        )}
+
+        {isAdmin && (
+          <div className="rounded-lg border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+            <ResponseForm action={addResponseAction.bind(null, ticket.id)} />
+          </div>
         )}
       </section>
     </div>
