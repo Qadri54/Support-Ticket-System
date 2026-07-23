@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import type { AdminActionState } from "@/app/tickets/[id]/actions";
+import { useToast } from "@/components/Toast";
 
 type Action = (
   prev: AdminActionState,
@@ -14,11 +15,16 @@ export function ResponseForm({ action }: { action: Action }) {
     FormData
   >(action, {});
   const formRef = useRef<HTMLFormElement>(null);
+  const { notify } = useToast();
 
-  // Clear the textarea after a successful submit.
   useEffect(() => {
-    if (state.ok) formRef.current?.reset();
-  }, [state.ok]);
+    if (state.ok) {
+      formRef.current?.reset();
+      notify("Response added.", "success");
+    } else if (state.error) {
+      notify(state.error, "error");
+    }
+  }, [state, notify]);
 
   return (
     <form ref={formRef} action={formAction} className="space-y-2">
@@ -33,11 +39,6 @@ export function ResponseForm({ action }: { action: Action }) {
         placeholder="Write a reply to this ticket…"
         className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900"
       />
-      {state.error && (
-        <p role="alert" className="text-sm text-red-600 dark:text-red-400">
-          {state.error}
-        </p>
-      )}
       <button
         type="submit"
         disabled={isPending}

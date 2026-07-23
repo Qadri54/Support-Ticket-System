@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import type { AdminActionState } from "@/app/tickets/[id]/actions";
+import { useToast } from "@/components/Toast";
 import type { TicketStatus } from "@/lib/types";
 
 const OPTIONS: { value: TicketStatus; label: string }[] = [
@@ -26,6 +27,12 @@ export function StatusUpdater({
     AdminActionState,
     FormData
   >(action, {});
+  const { notify } = useToast();
+
+  useEffect(() => {
+    if (state.ok) notify("Ticket status updated.", "success");
+    else if (state.error) notify(state.error, "error");
+  }, [state, notify]);
 
   return (
     <form
@@ -56,14 +63,6 @@ export function StatusUpdater({
       >
         {isPending ? "Updating…" : "Update"}
       </button>
-      {state.error && (
-        <p
-          role="alert"
-          className="w-full text-sm text-red-600 dark:text-red-400 sm:mt-1"
-        >
-          {state.error}
-        </p>
-      )}
     </form>
   );
 }

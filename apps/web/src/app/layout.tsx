@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { logoutAction } from "@/app/actions";
+import { ToastProvider } from "@/components/Toast";
 import { getCurrentUser } from "@/lib/api";
 import "./globals.css";
 
@@ -75,9 +76,11 @@ export default async function RootLayout({
             </div>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-6">
-          {children}
-        </main>
+        <ToastProvider>
+          <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-6">
+            {children}
+          </main>
+        </ToastProvider>
       </body>
     </html>
   );
