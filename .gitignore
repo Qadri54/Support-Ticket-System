@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+apps/api/vendor/
+
+# Environment
+.env
+apps/api/.env
+apps/web/.env.local
+apps/stats/.env
+
+# Build output
+apps/web/.next/
+apps/web/out/
+apps/stats/dist/
+
+# Database — created via `php artisan migrate --seed`, never committed
+apps/api/database/database.sqlite
+apps/api/database/*.sqlite
+apps/api/database/*.sqlite-journal
+
+# Laravel
+apps/api/storage/*.key
+apps/api/storage/logs/*.log
+apps/api/storage/framework/cache/data/*
+apps/api/storage/framework/sessions/*
+apps/api/storage/framework/views/*
+apps/api/bootstrap/cache/*.php
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

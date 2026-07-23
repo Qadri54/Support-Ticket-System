@@ -1,0 +1,6 @@
+{
+  "name": "support-ticket-system",
+  "private": true,
+  "workspaces": ["apps/web", "apps/stats"],
+  "engines": { "node": ">=24" }
+}
