@@ -1,16 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 
 export function LoginForm() {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setIsPending(true);
 
     const formData = new FormData(event.currentTarget);
     const res = await fetch("/api/login", {
@@ -29,15 +28,15 @@ export function LoginForm() {
           ? String((body as { message?: string }).message)
           : "Login failed. Check your credentials.";
       setError(message);
+      setIsPending(false);
       return;
     }
 
-    // Cookie is set by the route handler; refresh server components so the
-    // header and admin controls reflect the logged-in state.
-    startTransition(() => {
-      router.refresh();
-      router.push("/");
-    });
+    // The route handler set the httpOnly cookie. Do a full navigation (not a
+    // soft router.push) so the server re-renders the root layout header and
+    // admin controls with the new auth state — a soft navigation would reuse
+    // the cached logged-out layout.
+    window.location.assign("/");
   }
 
   return (
