@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
-import { logoutAction } from "@/app/actions";
+import { LogoutButton } from "@/components/LogoutButton";
 import { ToastProvider } from "@/components/Toast";
 import { getCurrentUser } from "@/lib/api";
 import "./globals.css";
@@ -56,14 +56,7 @@ export default async function RootLayout({
                       </span>
                     )}
                   </span>
-                  <form action={logoutAction}>
-                    <button
-                      type="submit"
-                      className="rounded-md border border-neutral-300 px-3 py-1.5 font-medium transition hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
-                    >
-                      Log out
-                    </button>
-                  </form>
+                  <LogoutButton />
                 </div>
               ) : (
                 <Link

@@ -24,3 +24,88 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ---- Toast animations ---- */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6rem) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(0.96);
+  }
+}
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.toast-enter {
+  animation: toast-in 0.28s cubic-bezier(0.21, 1.02, 0.73, 1) both;
+}
+
+.toast-leave {
+  animation: toast-out 0.2s ease-in forwards;
+}
+
+.toast-progress {
+  transform-origin: left;
+  animation: toast-progress linear forwards;
+  animation-duration: var(--toast-duration, 4000ms);
+}
+
+/* ---- Modal (dialog) animations ---- */
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-backdrop {
+  animation: fade-in 0.2s ease-out both;
+}
+
+.modal-panel {
+  animation: modal-panel-in 0.24s cubic-bezier(0.21, 1.02, 0.73, 1) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-enter,
+  .toast-leave,
+  .toast-progress,
+  .modal-backdrop,
+  .modal-panel {
+    animation: none;
+  }
+}
