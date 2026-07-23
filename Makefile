@@ -1,9 +1,13 @@
-.PHONY: setup api web stats test fresh
+.PHONY: setup db api web stats test fresh
 
-setup:
+setup: db
 	cd apps/api && composer install && cp -n .env.example .env && php artisan key:generate
-	cd apps/api && touch database/database.sqlite && php artisan migrate --seed
+	cd apps/stats && cp -n .env.example .env || true
+	cd apps/api && php artisan migrate --seed
 	npm install
+
+db:
+	mysql -u root -h 127.0.0.1 -e "CREATE DATABASE IF NOT EXISTS Support_Ticket_System CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE DATABASE IF NOT EXISTS Support_Ticket_System_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 fresh:
 	cd apps/api && php artisan migrate:fresh --seed
