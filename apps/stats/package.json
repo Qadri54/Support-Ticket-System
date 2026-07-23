@@ -9,7 +9,8 @@
     "start": "tsx index.ts"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql2": "^3.11.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
