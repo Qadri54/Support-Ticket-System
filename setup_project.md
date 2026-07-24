@@ -553,20 +553,3 @@ Setiap fase harus menghasilkan kondisi yang dapat dijalankan sebelum lanjut ke f
 3. SQLite sebagai database
 4. Bearer token, bukan Sanctum SPA cookie mode
 5. Validasi di sisi client dan server
-
----
-
-## 14. Definition of done
-
-- [ ] `make setup` berhasil pada clone baru tanpa langkah manual tambahan
-- [ ] Seluruh endpoint di bagian 8 berfungsi dengan status code sesuai 8.1
-- [ ] Bentuk error konsisten di seluruh endpoint
-- [ ] Migration, relasi FK, dan seeder berjalan
-- [ ] `php artisan test` hijau, mencakup unit, integration, validation, dan authorization
-- [ ] Frontend responsive pada 375px
-- [ ] Loading state dan error state ada di setiap route
-- [ ] Validasi berjalan di client dan server
-- [ ] Tidak ada `any` di TypeScript
-- [ ] Stats service mengembalikan JSON valid di port 4000
-- [ ] README, `docs/api.md`, `docs/decisions.md` lengkap
-- [ ] `database/database.sqlite` dan `.env` tidak ter-commit
