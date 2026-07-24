@@ -20,8 +20,9 @@ polyglot monorepo: **API Laravel 13**, **frontend Next.js 16**, dan satu
 7. [Menjalankan Test](#menjalankan-test)
 8. [API Endpoints](#api-endpoints)
 9. [Akun Demo](#akun-demo)
-10. [Known Limitations](#known-limitations)
-11. [Peningkatan Jika Ada Waktu Lebih](#peningkatan-jika-ada-waktu-lebih-future-improvements)
+10. [Screenshots](#screenshots)
+11. [Known Limitations](#known-limitations)
+12. [Peningkatan Jika Ada Waktu Lebih](#peningkatan-jika-ada-waktu-lebih-future-improvements)
 
 ---
 
@@ -311,6 +312,44 @@ Setelah login, token disimpan sebagai httpOnly cookie; Server Component membaca
 peran user via `GET /me` untuk menampilkan kontrol admin. Endpoint mutasi tetap
 diproteksi `auth:sanctum` + `TicketPolicy` di server — UI hanya menyembunyikan
 kontrol, otorisasi sebenarnya ada di API.
+
+---
+
+## Screenshots
+
+### User Features
+
+**Daftar ticket + filter status**
+
+![List ticket](screenshoot/User_Features/list_ticket.png)
+
+**Buat ticket baru**
+
+![Add new ticket](screenshoot/User_Features/add_new_ticket.png)
+
+**Detail ticket + thread response**
+
+![Detail ticket](screenshoot/User_Features/detail_ticket.png)
+
+**Filter berdasarkan status**
+
+| Open | In Progress | Resolved |
+|---|---|---|
+| ![Open](screenshoot/User_Features/open_ticket.png) | ![In Progress](screenshoot/User_Features/in_progress_ticket.png) | ![Resolved](screenshoot/User_Features/resolve_ticket.png) |
+
+### Admin Features
+
+**Admin login**
+
+![Admin login](screenshoot/admin_features/admin_login.png)
+
+**Daftar ticket (tampilan admin)**
+
+![Admin list ticket](screenshoot/admin_features/list_ticket.png)
+
+**Ubah status & tambah response pada halaman detail**
+
+![Change status and add response](screenshoot/admin_features/change_status-add_response-detail_ticket.png)
 
 ---
 
