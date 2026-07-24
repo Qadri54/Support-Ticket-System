@@ -7,6 +7,8 @@ polyglot monorepo: **API Laravel 13**, **frontend Next.js 16**, dan satu
 > **Catatan database:** Proyek ini menggunakan **MySQL** (bukan SQLite seperti pada
 > spesifikasi awal) sesuai permintaan. Lihat [ADR-3](docs/decisions.md).
 
+**Estimated time spent:** ±8 jam.
+
 ## Daftar Isi
 
 1. [Tech Stack](#tech-stack)
